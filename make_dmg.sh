@@ -1,5 +1,6 @@
 #!/bin/bash
 # make_dmg.sh — Package MiniBrowser.app into a distributable universal DMG.
+# MiniBrowser (c) 2026 Trendzza. All rights reserved. Free forever, non-commercial — see LICENSE.
 # Usage: bash make_dmg.sh [output-name]
 set -euo pipefail
 

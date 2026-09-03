@@ -1,3 +1,5 @@
+// MiniBrowser (c) 2026 Trendzza. All rights reserved.
+// Free forever, non-commercial — see LICENSE.
 import AppKit
 
 // MiniBrowser v2 icon — AI-designed mark

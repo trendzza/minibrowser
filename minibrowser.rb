@@ -1,5 +1,9 @@
 # Homebrew Cask for MiniBrowser
 #
+# MiniBrowser — the browser for people tired of slow, RAM-hungry browsers.
+# (c) 2026 Trendzza. All rights reserved.
+# Free forever · Non-commercial · Open source — see LICENSE.
+#
 # Once the code is signed & notarized and hosted at the URL below, this cask
 # can be installed with:
 #   brew install --cask minibrowser
@@ -11,8 +15,8 @@ cask "minibrowser" do
 
   url "https://REPLACE.example.com/minibrowser/MiniBrowser-#{version}.dmg"
   name "MiniBrowser"
-  desc "Ultra-low RAM, privacy-first native macOS browser"
-  homepage "https://REPLACE.example.com"
+  desc "Ultra-low RAM, privacy-first native macOS browser (c) 2026 Trendzza"
+  homepage "https://github.com/trendzza/minibrowser"
 
   auto_updates true
 

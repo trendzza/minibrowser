@@ -1,3 +1,5 @@
+// MiniBrowser (c) 2026 Trendzza. All rights reserved.
+// Free forever, non-commercial — see LICENSE.
 import WebKit
 import Foundation
 import Darwin

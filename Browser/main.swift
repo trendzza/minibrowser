@@ -1,3 +1,7 @@
+// MiniBrowser — the browser for people tired of slow, RAM-hungry browsers.
+// (c) 2026 Trendzza. All rights reserved.
+// Free forever · Non-commercial · Open source — see LICENSE.
+// You may use, modify, and contribute. You may NOT sell it.
 import Cocoa
 import WebKit
 import Darwin
