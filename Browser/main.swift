@@ -742,10 +742,14 @@ enum Blocker {
                                            resourceType: resourceTypes,
                                            ifDomain: trackerDomains),
                           action: Action(type: "block")))
+        // Generic ad/analytics endpoints are only blocked when they come from a
+        // known tracker/ad domain. (Previously these matched on EVERY domain,
+        // which could stall JS-heavy sites that legitimately host URLs like
+        // /ads/ or /collect?.)
         for endpoint in genericEndpoints {
             rules.append(Rule(trigger: Trigger(urlFilter: endpoint,
                                                resourceType: resourceTypes,
-                                               ifDomain: nil),
+                                               ifDomain: trackerDomains),
                               action: Action(type: "block")))
         }
         rules.append(Rule(trigger: Trigger(urlFilter: ".*",
@@ -883,6 +887,31 @@ enum AppScripts {
         if Perf.enabled { cc.addUserScript(Perf.script) }
         if LowMem.enabled { cc.addUserScript(LowMem.script) }
         cc.addUserScript(AudioTracker.script)
+    }
+}
+
+// MARK: - WebKit warm-up
+// Creates an off-screen WKWebView immediately at launch so the WebKit helper
+// processes (WebContent, Networking, GPU) and caches are ready before the user
+// navigates, making the first page load feel instant instead of a cold start.
+enum WebKitWarmer {
+    private static var webView: WKWebView?
+
+    static func warm() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            // Reuse the app's real config so the same content rule list + user
+            // scripts get compiled/loaded into backing processes ahead of time.
+            let wv = WKWebView(frame: NSRect(x: 0, y: 0, width: 1, height: 1),
+                               configuration: sharedConfiguration)
+            // A trivial local load forces WebKit to spawn + warm its processes
+            // before the user asks for a real site.
+            wv.loadHTMLString("<!doctype html><html><body></body></html>", baseURL: nil)
+            self.webView = wv
+            DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
+                wv.stopLoading()
+                self.webView = nil
+            }
+        }
     }
 }
 
@@ -3387,9 +3416,12 @@ final class BrowserViewController: NSViewController {
     var releaseOnFocusLoss = UserDefaults.standard.object(forKey: "focusRelease") as? Bool ?? false
 
     @objc func appResigned(_ note: Notification) {
-        MemGuard.evictCaches(includeDisk: false)
+        // Don't evict caches on every focus loss: doing so forces re-downloading
+        // assets next time, which makes returning to a page feel slow. Only act
+        // if the user explicitly enabled "release on focus loss", or when the
+        // whole process tree is genuinely under our memory threshold.
         if releaseOnFocusLoss {
-            // Explicit toggle: always release on focus loss.
+            MemGuard.evictCaches(includeDisk: false)
         } else if MemGuard.footprintBytes() > MemGuard.memoryPressureThreshold {
             activeTab?.discard()
         }
@@ -4377,6 +4409,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.tabbingMode = .automatic
 
         buildMenu()
+
+        // Pre-warm WebKit right after launch so the first navigation isn't a
+        // cold start (first page load used to pay the full WebContent/Networking
+        // process-spawn + cache-miss penalty).
+        WebKitWarmer.warm()
     }
 
     @objc func newWindowAction(_ sender: Any?) {
