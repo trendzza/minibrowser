@@ -1,0 +1,55 @@
+name: Bug report
+description: Report a problem so we can fix it
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please fill in as much as you can.
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      description: e.g. macOS 14.5, macOS 15, etc.
+      placeholder: "macOS 14.5"
+    validations:
+      required: true
+  - type: input
+    id: chip
+    attributes:
+      label: Chip
+      description: Apple Silicon (M1/M2/M3/M4) or Intel?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: What did you do?
+      placeholder: "1. Opened X\n2. Clicked Y\n3. Saw Z"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (if known)
+      options:
+        - Browser / tabs
+        - Memory / hibernation
+        - Ad-blocker / privacy
+        - UI / theme
+        - Installing / launching
+        - Other

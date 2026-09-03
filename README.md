@@ -147,6 +147,25 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. By submitting a contribut
 
 ## License
 
+## Get involved — contribute
+
+We welcome contributors of every level. The best place to start is our
+**["good first issue"](https://github.com/trendzza/minibrowser/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)**
+list — clearly-scoped, beginner-friendly tasks that require no deep Swift
+experience. There are also **["help wanted"](https://github.com/trendzza/minibrowser/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)**
+issues for bigger features.
+
+1. Pick an issue and comment to claim it.
+2. Fork the repo, create a branch.
+3. Build and test locally (`bash build.sh`).
+4. Open a pull request — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Every merged PR keeps MiniBrowser **free, fast, and non-commercial**.
+
+---
+
+## License
+
 MiniBrowser is **free software**. **You may not sell it.** You are free to use it, modify it, and contribute to it — and improvements stay free forever.
 
 See the full [MiniBrowser License](LICENSE) for terms.

@@ -1,0 +1,42 @@
+name: Contributor onboarding
+description: Introduce yourself and how you'd like to help (use this to claim a good first issue)
+title: "[Contributor]: "
+labels: ["good first issue", "help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Welcome! We're glad you want to help keep MiniBrowser fast and free.
+        **Note:** MiniBrowser is non-commercial open source (see [LICENSE](../LICENSE)).
+        You may not sell it — contributions stay free forever.
+  - type: textarea
+    id: intro
+    attributes:
+      label: A little about you
+      description: What do you do? New to open source or experienced?
+    validations:
+      required: true
+  - type: dropdown
+    id: interest
+    attributes:
+      label: What would you like to work on?
+      options:
+        - India: trackers / ad-blocker ruleset
+        - Docs & README
+        - UI / design polish
+        - Bugs & fixes
+        - Performance / memory
+        - Translations
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: Which issue would you like to claim?
+      description: Paste a link to a "good first issue" you'd like to take.
+  - type: input
+    id: availability
+    attributes:
+      label: Rough timeline
+      description: e.g. "a few days", "this week", "not sure yet"

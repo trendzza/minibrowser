@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: MiniBrowser web browser
+    url: https://github.com/trendzza/minibrowser
+    about: MiniBrowser — the browser for people tired of slow, RAM-hungry browsers.

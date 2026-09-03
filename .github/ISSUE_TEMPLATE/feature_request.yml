@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an idea for MiniBrowser
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas make MiniBrowser better. Tell us what you'd love to see.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What problem does this solve, or what would you like to do?
+      placeholder: "I wish I could ..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How do you imagine it working?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+  - type: input
+    id: willingness
+    attributes:
+      label: Would you like to implement it?
+      description: "Yes, I can submit a PR / No, just an idea"

@@ -1,0 +1,35 @@
+name: Welcome first-time contributors
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            👋 Thanks for opening your issue in MiniBrowser!
+
+            If you're looking to contribute, check our **good first issue**
+            label — beginner-friendly tasks that are clearly scoped. Introduce
+            yourself using the "Contributor onboarding" issue template, or just
+            comment on an issue to claim it.
+
+            **Quick reminder:** MiniBrowser is non-commercial open source. You
+            may use it, modify it, and contribute — but you may NOT sell it.
+          pr-message: |
+            🎉 Thanks for your first pull request to MiniBrowser!
+
+            A maintainer will review it soon. Make sure `bash build.sh` builds
+            with zero errors and zero warnings before we merge.
+
+            **Reminder:** contributions stay under the MiniBrowser (non-commercial)
+            license — free forever. See [CONTRIBUTING.md](CONTRIBUTING.md).
