@@ -1,0 +1,120 @@
+MiniBrowser License — Non-Commercial Open Source
+=================================================
+Version 1.0, effective 2026
+Developer / Copyright holder: Trendzza
+Project: MiniBrowser (the "Software")
+
+This is the license that governs MiniBrowser. Read it carefully: it grants
+everyone the freedom to use, study, modify, and contribute to the Software,
+while protecting it from being **sold for profit** and keeping its source
+**free and open forever**.
+
+
+1. GRANT OF RIGHTS
+------------------
+Subject to the terms below, permission is hereby granted, free of charge, to
+any person obtaining access to the Software or its source code, to:
+
+  a) USE the Software for any lawful personal, educational, or
+     non-commercial purpose;
+
+  b) COPY, MODIFY, MERGE, and DISTRIBUTE copies of the Software and its
+     source code;
+
+  c) SUBMIT CONTRIBUTIONS (patches, improvements, bug fixes, translations,
+     documentation, or other material) to the project, which are encouraged
+     and welcomed;
+
+  d) BUILD and RUN the Software for your own use or for public
+     non-commercial use.
+
+
+2. CONTRIBUTIONS
+----------------
+   a) By submitting a contribution to MiniBrowser, you agree that the
+      contribution is provided under and is governed by this license.
+
+   b) You retain ownership of your contribution, and Trendzza does not
+      claim it — but the contribution becomes part of the shared, free,
+      publicly-licensed project, so it cannot later be withdrawn into a
+      closed or commercial product.
+
+   c) Anyone may use, modify, and re-distribute your contribution under
+      the terms of this license.
+
+
+3. NO COMMERCIAL SALE (THE KEY RESTRICTION)
+-------------------------------------------
+   a) The Software is **free**. You may NOT sell the Software, its source
+      code, or any modified version of it, in whole or in part, for money
+      or for any other form of consideration.
+
+   b) You may NOT bundle, embed, or redistribute the Software (or a
+      modified version) inside a product, service, or download that is
+      sold, licensed for a fee, or otherwise monetized, without the prior
+      written permission of Trendzza.
+
+   c) You may NOT charge a fee for providing the Software, for supporting
+      it, for "fast access" to it, or for any service whose primary value
+      is the Software itself.
+
+   d) Exception: you MAY receive compensation solely for your own time and
+      labour performing installation, configuration, or technical-support
+      services for a user's own copy of the Software, and you MAY accept
+      voluntary donations — provided the Software itself is never sold,
+      and no fee is charged to access the Software.
+
+   e) Advertising, analytics, or telemetry for profit MUST NOT be injected
+      into or sold via the Software.
+
+
+4. FREEDOM IS PERPETUAL (Anti-Lock-In)
+--------------------------------------
+   a) The source code of MiniBrowser shall remain available and usable by
+      everyone under this license. No party may relicense the Software to
+      a proprietary or a stricter copyleft license.
+
+   b) Any further distribution of the Software — original or modified —
+      MUST preserve this license and this notice, and MUST keep the source
+      code available to its recipients.
+
+   c) If you distribute a modified version, you must make your changes
+      clear, keep this license intact, and not remove the attribution to
+      Trendzza.
+
+
+5. ATTRIBUTION
+--------------
+   a) The original developer and copyright holder is **Trendzza**.
+   b) When redistributing the Software or a modified version, you must
+      retain visible attribution such as "MiniBrowser by Trendzza".
+
+
+6. WARRANTY DISCLAIMER
+----------------------
+The Software is provided "AS IS", without warranty of any kind, express or
+implied, including but not limited to the warranties of merchantability,
+fitness for a particular purpose, and non-infringement. In no event shall
+Trendzza be liable for any claim, damages, or other liability arising from
+the use or distribution of the Software.
+
+
+7. DEFINITIONS
+--------------
+   "Software" means MiniBrowser and its source code, in whole or in part,
+   including any documentation.
+   "Contribution" means any material intentionally submitted for inclusion
+   in the Software.
+   "You" means an individual or legal entity exercising rights under this
+   license.
+
+
+8. TERMINATION
+--------------
+This license is granted in perpetuity. Violating the "No Commercial Sale"
+provision (Section 3) automatically terminates your rights under this
+license; doing so does not terminate the rights of anyone who otherwise
+complies.
+
+---
+© 2026 Trendzza. All rights reserved.
