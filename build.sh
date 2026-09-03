@@ -7,13 +7,51 @@ APP="$ROOT/MiniBrowser.app"
 BIN="$APP/Contents/MacOS"
 RES="$APP/Contents/Resources"
 
+# --- Configuration ---
+# Deployment target: oldest macOS we support. 11.0 (Big Sur) is the first to
+# run across every Apple Silicon (M1-M5) Mac AND all Intel Macs. The code uses
+# #available guards for 13/14-era APIs, so 11.0 is safe.
+DEPLOY_TARGET="${DEPLOY_TARGET:-11.0}"
+
+# Architectures to build. "arm64" covers every M-series MacBook.
+# "universal" builds arm64 + x86_64 so ONE app runs on all Macs (Intel too).
+export ARCHS="${ARCHS:-universal}"
+
+# Code-signing identity:
+#   ad-hoc  -> local dev builds (unsigned / runs on this Mac; Gatekeeper will
+#              still warn on other Macs until the app is notarized)
+#   devid   -> REAL Developer ID signing. Set SIGN_IDENTITY to your
+#              "Developer ID Application: ..." certificate name. Combines with
+#              notarize.sh for fully Gatekeeper-quiet installs.
+SIGN_MODE="${SIGN_MODE:-ad-hoc}"
+SIGN_IDENTITY="${SIGN_IDENTITY:-Developer ID Application: Trendzza}"
+
 rm -rf "$APP"
 mkdir -p "$BIN" "$RES"
-
 mkdir -p "$ROOT/.cache"
-xcrun swiftc -module-cache-path "$ROOT/.cache" -O -whole-module-optimization \
-  -framework AppKit -framework WebKit \
-  "$SRC" -o "$BIN/MiniBrowser"
+
+build_slice() {
+  local arch="$1" out="$2"
+  xcrun swiftc -target "${arch}-apple-macosx${DEPLOY_TARGET}" \
+    -module-cache-path "$ROOT/.cache" -O \
+    -framework AppKit -framework WebKit \
+    -Xfrontend -disable-availability-checking \
+    "$SRC" -o "$out"
+}
+
+if [[ "$ARCHS" == "universal" ]]; then
+  echo "Building universal binary (arm64 + x86_64, min macOS $DEPLOY_TARGET)..."
+  build_slice arm64  "$ROOT/.cache/MiniBrowser-arm64"
+  build_slice x86_64 "$ROOT/.cache/MiniBrowser-x86_64"
+  xcrun lipo -create \
+    "$ROOT/.cache/MiniBrowser-arm64" \
+    "$ROOT/.cache/MiniBrowser-x86_64" \
+    -output "$BIN/MiniBrowser"
+  rm -f "$ROOT/.cache/MiniBrowser-arm64" "$ROOT/.cache/MiniBrowser-x86_64"
+else
+  echo "Building single-arch binary ($ARCHS, min macOS $DEPLOY_TARGET)..."
+  build_slice "$ARCHS" "$BIN/MiniBrowser"
+fi
 
 ICON_RENDER="$ROOT/.cache/icon_render"
 rm -rf "$ICON_RENDER"
@@ -44,7 +82,7 @@ fi
 
 if [ ! -f "$RES/AppIcon.icns" ]; then echo "ICON BUILD FAILED"; exit 1; fi
 
-cat > "$APP/Contents/Info.plist" <<'PLIST'
+cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -72,7 +110,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
 	<key>LSMinimumSystemVersion</key>
-	<string>12.0</string>
+	<string>${DEPLOY_TARGET}</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -121,11 +159,26 @@ cat > "$ROOT/.cache/entitlements.plist" <<'PLIST'
 <dict>
 	<key>com.apple.security.cs.allow-unsigned-executable-memory</key>
 	<true/>
-	<key>com.apple.security.cs.disable-library-validation</key>
-	<true/>
 </dict>
 </plist>
 PLIST
-codesign --force --deep --options runtime --entitlements "$ROOT/.cache/entitlements.plist" --sign - "$APP"
+
+if [[ "$SIGN_MODE" == "devid" ]]; then
+  echo "Signing with Developer ID: $SIGN_IDENTITY"
+  xcodebuild -project /dev/null -list >/dev/null 2>&1 || true
+  codesign --force --deep --options runtime \
+    --timestamp \
+    --entitlements "$ROOT/.cache/entitlements.plist" \
+    --sign "$SIGN_IDENTITY" "$APP"
+else
+  echo "Ad-hoc signing (local dev). For Gatekeeper-quiet installs use SIGN_MODE=devid + notarize.sh."
+  codesign --force --deep --options runtime \
+    --entitlements "$ROOT/.cache/entitlements.plist" \
+    --sign - "$APP"
+fi
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
+echo "=== architectures ==="
+lipo -archs "$BIN/MiniBrowser"
+echo "=== min OS ==="
+otool -l "$BIN/MiniBrowser" 2>/dev/null | grep -A3 LC_BUILD_VERSION | grep minos || true
 echo "Built: $APP"
