@@ -1,0 +1,18 @@
+# Build artifacts
+.cache/
+*.dmg
+Build/
+.freebuff/
+MiniBrowser-*.dmg
+
+# Separate tool (Brave launcher), not part of MiniBrowser
+Brave Memory Saver.app/
+brave-memory-launch.sh
+
+# macOS
+.DS_Store
+
+# Xcode/derived
+*.xcuserstate
+xcuserdata/
+DerivedData/
