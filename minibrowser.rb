@@ -12,7 +12,7 @@
 
 cask "minibrowser" do
   version "1.0"
-  sha256 "c1569048c96436b688dec4545edeb5a3fed66368712395044e3168114efc75fd"
+  sha256 "4ca2639dcddc7d18ff8643a55981c8a73f59e93bde964af71ed6aca1536523de"
 
   url "https://github.com/trendzza/minibrowser/releases/download/v#{version}/MiniBrowser-#{version}.dmg",
       verified: "github.com/trendzza/minibrowser/releases/download/"
