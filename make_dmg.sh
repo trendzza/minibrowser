@@ -19,6 +19,12 @@ rm -rf "$STAGE"
 mkdir -p "$STAGE"
 cp -R "$APP" "$STAGE/"
 
+# Add the double-clickable installer (zero-coding users just double-click it)
+if [ -f "$ROOT/Install MiniBrowser.command" ]; then
+  cp "$ROOT/Install MiniBrowser.command" "$STAGE/Install MiniBrowser.command"
+  chmod +x "$STAGE/Install MiniBrowser.command"
+fi
+
 # Add Applications symlink for drag-to-install
 ln -s /Applications "$STAGE/Applications"
 
