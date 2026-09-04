@@ -2911,8 +2911,8 @@ final class CommandPaletteView: NSView, NSSearchFieldDelegate, NSTableViewDataSo
         // Browser Actions
         allItems.append(CommandItem(title: "New Tab", shortcut: "⌘T", category: "Actions", iconName: "plus") { [weak b] in b?.newTab(nil) })
         allItems.append(CommandItem(title: "Reopen Closed Tab", shortcut: "⌘⇧T", category: "Actions", iconName: "arrow.uturn.backward") { [weak b] in b?.reopenClosedTab(nil) })
-        allItems.append(CommandItem(title: "Pin / Unpin Active Tab", shortcut: "⌘P", category: "Actions", iconName: "pin") { [weak b] in b?.togglePinCurrentTab() })
-        allItems.append(CommandItem(title: "Toggle Reader Mode", shortcut: "⌘⇧R", category: "Actions", iconName: "book") { [weak b] in b?.activeTab?.toggleReaderMode() })
+        allItems.append(CommandItem(title: "Pin / Unpin Active Tab", shortcut: "⌘⇧P", category: "Actions", iconName: "pin") { [weak b] in b?.togglePinCurrentTab() })
+        allItems.append(CommandItem(title: "Toggle Reader Mode", shortcut: "⌘⌥R", category: "Actions", iconName: "book") { [weak b] in b?.activeTab?.toggleReaderMode() })
         allItems.append(CommandItem(title: "Picture-in-Picture Video", shortcut: "⌥⌘P", category: "Actions", iconName: "pip") { [weak b] in b?.activeTab?.togglePictureInPicture() })
         allItems.append(CommandItem(title: "Translate Page to English", shortcut: "", category: "Actions", iconName: "character.book.closed") { [weak b] in b?.translatePage(nil) })
         allItems.append(CommandItem(title: "Autofill Current Form", shortcut: "", category: "Actions", iconName: "person.crop.circle.badge.checkmark") { [weak b] in b?.fillCurrentForm(nil) })
@@ -3175,10 +3175,10 @@ final class BrowserViewController: NSViewController {
         readerButton.contentTintColor = Theme.textDim
         readerButton.target = self
         readerButton.action = #selector(toggleReaderModeAction(_:))
-        readerButton.toolTip = "Toggle Reader Mode (⌘⇧R)"
+        readerButton.toolTip = "Toggle Reader Mode (⌘⌥R)"
         readerButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         readerButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        A11y.apply(readerButton, label: "Reader Mode", help: "Toggle reader mode with ⌘⇧R")
+        A11y.apply(readerButton, label: "Reader Mode", help: "Toggle reader mode with ⌘⌥R")
 
         downloadButton.isBordered = false
         downloadButton.image = NSImage(systemSymbolName: "arrow.down.circle", accessibilityDescription: "Downloads")
@@ -4478,7 +4478,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         reopen.keyEquivalentModifierMask = [.command, .shift]
         fileMenu.addItem(reopen)
 
-        let pinTab = NSMenuItem(title: "Pin / Unpin Tab", action: #selector(BrowserViewController.togglePinCurrentTab), keyEquivalent: "p")
+        let pinTab = NSMenuItem(title: "Pin / Unpin Tab", action: #selector(BrowserViewController.togglePinCurrentTab), keyEquivalent: "P")
+        pinTab.keyEquivalentModifierMask = [.command]
         fileMenu.addItem(pinTab)
 
         let cmdPalette = NSMenuItem(title: "Command Palette…", action: #selector(BrowserViewController.showCommandPalette(_:)), keyEquivalent: "k")
@@ -4519,7 +4520,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         viewMenu.addItem(.separator())
 
         let readerItem = NSMenuItem(title: "Toggle Reader Mode", action: #selector(BrowserViewController.toggleReaderModeAction(_:)), keyEquivalent: "r")
-        readerItem.keyEquivalentModifierMask = [.command, .shift]
+        readerItem.keyEquivalentModifierMask = [.command, .option]
         viewMenu.addItem(readerItem)
 
         let pipItem = NSMenuItem(title: "Picture-in-Picture Video", action: #selector(BrowserViewController.togglePictureInPictureAction(_:)), keyEquivalent: "p")
@@ -4545,6 +4546,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         viewMenu.addItem(.separator())
         let bmBarToggle = NSMenuItem(title: "Toggle Bookmarks Bar", action: #selector(BrowserViewController.toggleBookmarksBar(_:)), keyEquivalent: "b")
         bmBarToggle.keyEquivalentModifierMask = [.command, .shift]
+        bmBarToggle.state = Bookmarks.barVisible ? .on : .off
         viewMenu.addItem(bmBarToggle)
         viewItem.submenu = viewMenu
         mainMenu.addItem(viewItem)
@@ -4565,8 +4567,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let bmItem = NSMenuItem()
         let bmMenu = NSMenu(title: "Bookmarks")
         bmMenu.addItem(withTitle: "Bookmark This Tab…", action: #selector(BrowserViewController.bookmarkCurrentPage(_:)), keyEquivalent: "d")
-        let bmBarToggle2 = NSMenuItem(title: "Show Bookmarks Bar", action: #selector(BrowserViewController.toggleBookmarksBar(_:)), keyEquivalent: "b")
-        bmBarToggle2.keyEquivalentModifierMask = [.command, .shift]
+        let bmBarToggle2 = NSMenuItem(title: "Show / Hide Bookmarks Bar", action: #selector(BrowserViewController.toggleBookmarksBar(_:)), keyEquivalent: "")
+        bmBarToggle2.state = Bookmarks.barVisible ? .on : .off
         bmMenu.addItem(bmBarToggle2)
         bmItem.submenu = bmMenu
         mainMenu.addItem(bmItem)
