@@ -69,25 +69,37 @@ MiniBrowser is a **native macOS browser** built with Swift and WebKit — not a 
 
 ## Installation
 
-### Easy way — double-click the installer
+### Unverified-developer notice (read this first)
 
-1. Download **[MiniBrowser-1.0.dmg](https://github.com/trendzza/minibrowser/releases/download/v1.0/MiniBrowser-1.0.dmg)** and open the disk image.
-2. **Double-click "Install MiniBrowser.command"** (no coding, no Terminal).
-3. If macOS asks **"Open?"** click **Open** — it copies the app to Applications,
-   clears the Gatekeeper warning, and starts MiniBrowser.
+MiniBrowser is **free, ad‑hoc signed, and not notarized** (we don't pay Apple
+for a Developer ID). So the **first** time you open it, macOS may show:
 
-### First launch — only if macOS asks
+> *"Apple could not verify MiniBrowser is free of malware that may harm your Mac
+> or compromise your privacy."*
 
-MiniBrowser is **ad-hoc signed** (no paid Apple Developer ID / notarization), so
-on a brand‑new Mac, the **first** double‑click may show:
-*"Apple could not verify MiniBrowser is free of malware…"* — that's macOS being
-cautious about an unsigned download, **not a bug**. Get it open once:
+That message is macOS being cautious about **any** app not notarized with a paid
+Apple Developer certificate — it is **not** a bug and not a real malware warning.
+This affects thousands of open‑source tools. You only need to get $1 past it **once**
+and MiniBrowser then opens normally forever.
 
-- **Right‑click the app** (in /Applications) → **Open** → click **Open**. It
-  launches and macOS remembers your choice from then on.
-- Or run once in Terminal: `xattr -dr com.apple.quarantine "/Applications/MiniBrowser.app"`
+### Recommended — right‑click → Open (works on every Mac)
 
-After either, MiniBrowser opens normally like any other app.
+1. Download **[MiniBrowser-1.0.dmg](https://github.com/trendzza/minibrowser/releases/download/v1.0/MiniBrowser-1.0.dmg)** and open it.
+2. **Drag MiniBrowser.app into your Applications folder.** (Or open the disk
+   image, double‑click “Install MiniBrowser.command”, and choose Open.)
+3. In **Finder → Applications**, **right‑click MiniBrowser** → **Open** → click
+   **Open** in the dialog. It launches, and macOS remembers your choice from now on.
+
+That's it. No Terminal, no coding — one right‑click‑Open on the first launch.
+
+### Terminal alternative (one line, once)
+
+If you're comfortable with a terminal, this clears the flag so plain double‑click
+works on the first try:
+
+```bash
+xattr -dr com.apple.quarantine "/Applications/MiniBrowser.app"
+```
 
 ### Homebrew
 

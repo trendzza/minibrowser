@@ -3,9 +3,15 @@
 #
 # How to use (no coding, no Terminal typing):
 #   1. Double-click this file in the MiniBrowser disk image.
-#   2. Click "Open" if macOS asks to confirm.
-#   3. It copies MiniBrowser to Applications, clears the Gatekeeper
-#      quarantine flag, and opens the app.
+#   2. Click "Open" if macOS asks to confirm this script itself.
+#   3. It copies MiniBrowser to Applications and opens it.
+#   4. If macOS then shows "Apple could not verify MiniBrowser…" (the standard
+#      warning for free, un-notarized apps), right-click MiniBrowser in
+#      /Applications -> Open -> Open. macOS remembers your choice for good.
+#
+# Note: this script clears the quarantine flag (which helps) but cannot fully
+# remove Apple's unverified-developer warning on a fresh Mac. That is expected
+# for any free app without a paid Apple Developer ID. Get past it once.
 #
 # MiniBrowser (c) 2026 Trendzza. All rights reserved.
 # Free forever · Non-commercial · Open source — see LICENSE.
@@ -42,8 +48,8 @@ if [ -n "$SRC" ]; then
   cp -R "$SRC" "$DEST"
 fi
 
-# 2. Clear the Gatekeeper quarantine flag (this is what lets the app open).
-echo ">> Clearing the Gatekeeper 'quarantine' flag..."
+# 2. Clear the Gatekeeper quarantine flag (reduces the chance of the warning).
+echo ">> Clearing the quarantine flag..."
 xattr -dr com.apple.quarantine "$DEST" 2>/dev/null || true
 
 # 3. Make sure the ad-hoc signature is valid.
@@ -56,7 +62,10 @@ codesign --verify --deep --strict "$DEST" >/dev/null 2>&1 \
 echo ">> Opening MiniBrowser..."
 open "$DEST"
 echo ""
-echo "   MiniBrowser is open. Enjoy a fast, light browser!"
-echo "   Drag it from /Applications to your Dock to keep it handy."
+echo "   MiniBrowser is being opened. If macOS shows"
+echo "   \"Apple could not verify MiniBrowser is free of malware\", that's the"
+echo "   normal caution for a free, un-notarized app - it is safe to open."
+echo "   In Finder, RIGHT-CLICK MiniBrowser (in /Applications) -> Open -> Open."
+echo "   Then it always opens normally. Drag it to your Dock to keep it handy."
 echo ""
 read -n1 -s -r -p "Press any key to close this window..."
