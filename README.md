@@ -121,8 +121,11 @@ MiniBrowser is a **single-file Swift WebKit browser**. One source file. No UI fr
 Browser/main.swift        # the entire browser (~4,600 lines)
 Browser/probe.swift       # A/B perf probe (Turbo on/off)
 Browser/renderIcon.swift  # AI-designed app icon renderer
+MiniBrowser.xcodeproj     # optional: open & build in Xcode (⌘R)
+Install MiniBrowser.command # double-click installer for users
 build.sh                  # compile + codesign + package
 make_dmg.sh               # build distributable DMG
+install.sh                # one-command user installer
 notarize.sh               # Developer ID signing + Apple notarization
 minibrowser.rb            # Homebrew cask template
 LICENSE                   # non-commercial open source license

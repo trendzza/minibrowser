@@ -29,6 +29,11 @@ open MiniBrowser.app
 
 Build a universal binary by default (arm64 + x86_64, min macOS 11.0).
 
+### Optionally: open it in Xcode
+
+A `MiniBrowser.xcodeproj` is included — open it in Xcode and hit **Run** and
+⌘R to build & debug. (Requires Xcode 15+; the project targets macOS 11.0.)
+
 ## Before you submit
 
 1. **Open an issue first** for anything non-trivial so we can agree on the
