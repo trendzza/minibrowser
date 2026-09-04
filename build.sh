@@ -26,6 +26,36 @@ export ARCHS="${ARCHS:-universal}"
 SIGN_MODE="${SIGN_MODE:-ad-hoc}"
 SIGN_IDENTITY="${SIGN_IDENTITY:-Developer ID Application: Trendzza}"
 
+# --- Toolchain selection ---
+# The macOS 27 Command Line Tools drop x86_64 Swift compatibility stubs, so a
+# universal (arm64 + x86_64) build fails to LINK the x86_64 slice ("fat file
+# missing arch 'x86_64'"). A full Xcode install still carries x86_64 stubs. So
+# when the active toolchain can't link x86_64, prefer a full Xcode toolchain.
+# This only matters for the "universal" ARCHS; single-arch builds are unaffected.
+ensure_x86_64_toolchain() {
+  if [[ "${ARCHS:-universal}" != "universal" ]]; then
+    return 0
+  fi
+  local probe="libswiftCompatibilityConcurrency.a"
+  local active="$(xcrun --show-sdk-path 2>/dev/null)"
+  local active_swift="$(dirname "$(xcrun --find swiftc 2>/dev/null)")/../lib/swift/macosx"
+  if [[ -f "$active_swift/$probe" ]] && lipo -archs "$active_swift/$probe" 2>/dev/null | grep -q x86_64; then
+    return 0   # current toolchain already supports x86_64
+  fi
+  # Find a full Xcode that does support x86_64.
+  local candidate
+  for candidate in /Applications/Xcode.app /Applications/Xcode-beta.app "$HOME/Desktop/Xcode.app" "$HOME/Desktop/Xcode-beta.app"; do
+    local cswift="$candidate/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx"
+    if [[ -f "$cswift/$probe" ]] && lipo -archs "$cswift/$probe" 2>/dev/null | grep -q x86_64; then
+      echo "info: using Xcode toolchain at $candidate (CLT lacks x86_64 Swift libs)"
+      export DEVELOPER_DIR="$candidate/Contents/Developer"
+      return 0
+    fi
+  done
+  echo "warning: no toolchain with x86_64 Swift libs found" >&2
+}
+ensure_x86_64_toolchain
+
 rm -rf "$APP"
 mkdir -p "$BIN" "$RES"
 mkdir -p "$ROOT/.cache"
