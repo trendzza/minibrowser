@@ -69,12 +69,40 @@ MiniBrowser is a **native macOS browser** built with Swift and WebKit — not a 
 
 ## Installation
 
-### Download (recommended)
+MiniBrowser is **ad-hoc signed** (no paid Apple Developer ID / notarization), so
+on first launch macOS Gatekeeper may show *"cannot be opened because the
+developer cannot be verified."* That is macOS being cautious about an unsigned
+download — **not a bug**. Any one of the options below clears it (no account,
+no certificate, no cost).
+
+### Option 1 — Homebrew (smoothest)
+
+```bash
+brew install --cask minibrowser
+```
+
+Homebrew clears the quarantine flag automatically. (From source: `brew install
+--cask ./minibrowser.rb`.)
+
+### Option 2 — Download + one-command installer
+
+```bash
+# 1. Download MiniBrowser-1.0.dmg from the release, open it, drag MiniBrowser.app
+#    into /Applications, then:
+curl -L -o /tmp/install.sh https://raw.githubusercontent.com/trendzza/minibrowser/main/install.sh
+bash /tmp/install.sh /Applications/MiniBrowser.app
+```
+
+The installer clears quarantine, ad-hoc re-signs, and launches the app.
+
+### Option 3 — Download + manual
 
 1. Download **[MiniBrowser-1.0.dmg](https://github.com/trendzza/minibrowser/releases/download/v1.0/MiniBrowser-1.0.dmg)**
-2. Open the DMG
-3. Drag **MiniBrowser.app** into **Applications**
-4. Right-click → Open (first launch only, due to ad-hoc signing)
+2. Open the DMG, drag **MiniBrowser.app** into **Applications**
+3. **Right-click → Open** → click **Open** (one-time, ~5 seconds)
+
+> If a copy still refuses to launch, run once:
+> `xattr -dr com.apple.quarantine /Applications/MiniBrowser.app`
 
 ### Build from source
 
@@ -88,12 +116,6 @@ cd minibrowser
 ```
 
 Universal by default — one build runs on every M-series MacBook *and* Intel Mac (macOS 11.0+).
-
-### Homebrew
-
-```bash
-brew install --cask minibrowser   # once published (see minibrowser.rb)
-```
 
 ---
 
